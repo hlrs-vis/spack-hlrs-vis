@@ -66,7 +66,7 @@ class Vistle(CMakePackage, ROCmPackage, CudaPackage):
     depends_on('git', type='build')
 
     with when("+openmp"):
-        depends_on('llvm-openmp', when='platform=darwin')
+        depends_on('llvm-openmp', when='%apple-clang')
     depends_on('tbb', when="~openmp")
 
     extends('python', when='+python')
