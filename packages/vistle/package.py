@@ -61,8 +61,8 @@ class Vistle(CMakePackage, ROCmPackage, CudaPackage):
     variant('rocm', default=False, description='Use rocm-enabled Kokkos backend for internal VTK-m', when='~vtkm')
     variant('openmp', default=True, description='Use OpenMP (including within Kokkos)')
 
-    conflicts('%gcc@:4.99')
-    depends_on('cmake@3.3:', type='build')
+    conflicts('%gcc@:7')
+    depends_on('cmake@3.10:', type='build')
     depends_on('git', type='build')
 
     with when("+openmp"):
@@ -71,7 +71,7 @@ class Vistle(CMakePackage, ROCmPackage, CudaPackage):
 
     extends('python', when='+python')
 
-    depends_on('python@2.7:', when='+python', type=('build', 'link', 'run'))
+    depends_on('python@3:', when='+python', type=('build', 'link', 'run'))
     depends_on('py-installer', when='+python+xdmf', type=('build'))
     conflicts('+tui', '~python', msg='Python is required to interpret user input')
     depends_on('py-ipython', when='+tui', type=('run'))
