@@ -56,9 +56,9 @@ class Vistle(CMakePackage, ROCmPackage, CudaPackage):
     variant('dev', default=True, description='Install internal 3rd party dependencies for linking to Vistle')
     variant('boostmpi', default=False, description='Do not use internal copy of Boost.MPI')
     variant('cuda', default=False, description='Build with CUDA')
-    variant('vtkm', default=True, description='Do not use internal copy of VTK-m')
     variant('kokkos', default=False, description='Use Kokkos backend for internal VTK-m', when='~vtkm')
     variant('rocm', default=False, description='Use rocm-enabled Kokkos backend for internal VTK-m', when='~vtkm')
+    variant('vtkm', default=False, description='Use external copy of VTK-m')
     variant('openmp', default=True, description='Use OpenMP (including within Kokkos)')
 
     conflicts('%gcc@:7')
