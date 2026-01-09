@@ -175,12 +175,14 @@ class Vistle(CMakePackage, ROCmPackage, CudaPackage):
 
         args = []
 
-        args.append('-DVISTLE_PEDANTIC_ERRORS=OFF')
+        # avoid breaking build
+        args.append(self.define('VISTLE_COLOR_DIAGNOSTICS', False))
+        args.append(self.define('VISTLE_PEDANTIC_ERRORS', False))
 
         if '+static' in spec:
             args.extend([
-                '-DVISTLE_BUILD_SHARED=OFF',
-                '-DVISTLE_MODULES_SHARED=OFF'
+                self.define('VISTLE_BUILD_SHARED', False),
+                self.define('VISTLE_MODULES_SHARED', False)
             ])
 
         args.append(self.define('VISTLE_INTERNAL_BOOST_MPI', not spec.satisfies('+boostmpi')))
@@ -197,7 +199,6 @@ class Vistle(CMakePackage, ROCmPackage, CudaPackage):
                     hipcc = self.spec['hip'].prefix.bin.join('hipcc')
                     args.append(self.define('CMAKE_CXX_COMPILER', str(hipcc)))
         
-        args.append(self.define('VISTLE_COLOR_DIAGNOSTICS', 'OFF'))
         args.append(self.define_from_variant('VISTLE_USE_OPENMP', 'openmp'))
 
         args.append(self.define_from_variant('VISTLE_MULTI_PROCESS', 'multi'))
