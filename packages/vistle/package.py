@@ -193,7 +193,10 @@ class Vistle(CMakePackage, ROCmPackage, CudaPackage):
             # hip support
             if "+rocm" in spec:
                 args.append(self.builder.define_hip_architectures(self))
-
+                if "+kokkos" in spec:
+                    hipcc = self.spec['hip'].prefix.bin.join('hipcc')
+                    args.append(self.define('CMAKE_CXX_COMPILER', str(hipcc)))
+        
         args.append(self.define_from_variant('VISTLE_USE_OPENMP', 'openmp'))
 
         args.append(self.define_from_variant('VISTLE_MULTI_PROCESS', 'multi'))
