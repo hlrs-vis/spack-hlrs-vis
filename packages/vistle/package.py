@@ -197,6 +197,7 @@ class Vistle(CMakePackage, ROCmPackage, CudaPackage):
                     hipcc = self.spec['hip'].prefix.bin.join('hipcc')
                     args.append(self.define('CMAKE_CXX_COMPILER', str(hipcc)))
         
+        args.append(self.define('VISTLE_COLOR_DIAGNOSTICS', 'OFF'))
         args.append(self.define_from_variant('VISTLE_USE_OPENMP', 'openmp'))
 
         args.append(self.define_from_variant('VISTLE_MULTI_PROCESS', 'multi'))
