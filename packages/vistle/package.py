@@ -116,7 +116,7 @@ class Vistle(CMakePackage, ROCmPackage, CudaPackage):
         conflicts('+rocm')
         depends_on("kokkos +cuda", when="+kokkos")
 
-    depends_on('netcdf-c +hdf4') # hdf4 for MPAS
+    depends_on('netcdf-c +hdf4', when='+netcdf') # hdf4 for MPAS
     depends_on('netcdf-cxx4', when='+netcdf')
     depends_on('parallel-netcdf', when='+pnetcdf')
     depends_on('hdf5', when='+hdf5')
