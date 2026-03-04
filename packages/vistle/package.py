@@ -60,6 +60,9 @@ class Vistle(CMakePackage, ROCmPackage, CudaPackage):
     variant('rocm', default=False, description='Use rocm-enabled Kokkos backend for internal VTK-m', when='~vtkm')
     variant('vtkm', default=False, description='Use external copy of VTK-m')
     variant('openmp', default=True, description='Use OpenMP (including within Kokkos)')
+    
+    variant('nvtx', default=False, description='Add annotations for the Nsight profiler')
+    variant('roctx', default=False, description='Add annotations for the ROCm profiler')
 
     conflicts('%gcc@:7')
     depends_on('cmake@3.10:', type='build')
@@ -212,5 +215,8 @@ class Vistle(CMakePackage, ROCmPackage, CudaPackage):
         args.append(self.define_from_variant('VISTLE_64BIT_INDICES', 'large'))
 
         args.append(self.define_from_variant('VISTLE_INSTALL_3RDPARTY', 'dev'))
+
+        args.append(self.define_from_variant('VISTLE_PROFILE_NVTX', 'nvtx'))
+        args.append(self.define_from_variant('VISTLE_PROFILE_ROCTX', 'roctx'))
 
         return args
