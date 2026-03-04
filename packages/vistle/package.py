@@ -168,6 +168,11 @@ class Vistle(CMakePackage, ROCmPackage, CudaPackage):
         env.set('VISTLE_ROOT', self.prefix)
         if self.spec.satisfies('+python'):
             env.prepend_path("PYTHONPATH", self.prefix.lib)
+    
+    def _define_hip_arch(self):
+        if hasattr(self, "define_hip_architectures"):
+            return self.define_hip_architectures(self)
+        return self.builder.define_hip_architectures(self)
 
     def cmake_args(self):
         """Populate cmake arguments for Vistle."""
@@ -178,6 +183,7 @@ class Vistle(CMakePackage, ROCmPackage, CudaPackage):
         # avoid breaking build
         args.append(self.define('VISTLE_COLOR_DIAGNOSTICS', False))
         args.append(self.define('VISTLE_PEDANTIC_ERRORS', False))
+    
 
         if '+static' in spec:
             args.extend([
@@ -194,7 +200,7 @@ class Vistle(CMakePackage, ROCmPackage, CudaPackage):
 
             # hip support
             if "+rocm" in spec:
-                args.append(self.builder.define_hip_architectures(self))
+                args.append(self._define_hip_arch())
                 if "+kokkos" in spec:
                     hipcc = self.spec['hip'].hipcc
                     args.append(self.define('CMAKE_CXX_COMPILER', str(hipcc)))
