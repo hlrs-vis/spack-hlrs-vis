@@ -84,6 +84,8 @@ class Vistle(CMakePackage, ROCmPackage, CudaPackage):
     depends_on('boost+mpi', when='+boostmpi')
     depends_on('fmt')
 
+    depends_on('catch2') # for BigWhoop
+
     depends_on("libcatalyst +conduit", when="+catalyst")
 
     with when("+vtkm"):
